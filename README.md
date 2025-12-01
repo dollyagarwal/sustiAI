@@ -85,7 +85,7 @@ SustiAI uses an **Agentic AI architecture** built on **Google ADK** and **Gemini
    ```
 
 4. **Configure Google ADK & Gemini**
-   - Set up your API keys and environment variables in `.env`.
+   - Set up your API keys and environment variables in `.env` (GOOGLE_API_KEY)
 
 5. **Run the application**
    ```bash
