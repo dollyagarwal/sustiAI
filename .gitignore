@@ -1,0 +1,13 @@
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
+__pycache__
+.pytest_cache
+.vscode/
+.env
+*.db
+.venv/
+.github/
+.DS_Store
+*.ipynb
