@@ -74,7 +74,7 @@ reporter_instruction = dedent(r'''
 ''')
 
 
-_model_kwargs = {"model": "gemini-2.5-flash"}
+_model_kwargs = {"model": "gemini-2.5-flash-lite"}
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if GOOGLE_API_KEY:
     _model_kwargs["api_key"] = GOOGLE_API_KEY

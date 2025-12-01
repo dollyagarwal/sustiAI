@@ -26,7 +26,7 @@ saving_instruction = dedent(r'''
 You are provided with an html code for the events report in `{report}`, your only job is to save it using `save_html` tool in the default filepath of the tool
 ''')
 
-_model_kwargs = {"model": "gemini-2.5-flash"}
+_model_kwargs = {"model": "gemini-2.5-flash-lite"}
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if GOOGLE_API_KEY:
     _model_kwargs["api_key"] = GOOGLE_API_KEY
