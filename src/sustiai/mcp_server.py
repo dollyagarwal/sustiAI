@@ -4,7 +4,7 @@ import json
 from typing import Dict, List, Any
 
 # NOTE: This module intentionally keeps long SQL strings and compact
-# helper methods so it can be used as-is from the notebook. Tests and
+# helper methods. Tests and
 # CI may not have the full MCP SDK available; flake/pylint checks are
 # intentionally relaxed for this file.
 # flake8: noqa

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSphere Ltd Emissions Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #f8f9fa; /* A subtle light gray for general backgrounds */
+            --text-color: #333;
+            --font-family: Arial, sans-serif;
+            --card-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .header img {
+            height: 50px;
+            width: auto;
+            border-radius: var(--border-radius);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        h2, h3 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kpi-card .label {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .kpi-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .kpi-card .unit {
+            font-size: 1em;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .chart-card h3 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .report-narrative {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        .report-narrative p {
+            margin-bottom: 1em;
+        }
+
+        .report-narrative ul, .report-narrative ol {
+            margin-left: 20px;
+            margin-bottom: 1em;
+        }
+
+        .report-narrative strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbBL29Jawxl9ELLRe8K5Qgy0udooluQC2NQQ&s" alt="EcoSphere Ltd Logo">
+        <h1>EcoSphere Ltd Emissions Report</h1>
+    </div>
+
+    <div class="container">
+        <h2>Key Performance Indicators</h2>
+        <div class="kpi-grid">
+            
+            <div class="kpi-card">
+                <div class="label">Total Emissions (Event 3)</div>
+                <div class="value">72,127.00</div>
+                <div class="unit">kg CO₂e</div>
+            </div>
+            
+            <div class="kpi-card">
+                <div class="label">Total Emissions (Event 5)</div>
+                <div class="value">89,438.72</div>
+                <div class="unit">kg CO₂e</div>
+            </div>
+            
+            <div class="kpi-card">
+                <div class="label">Emission Change (Event 3 to 5)</div>
+                <div class="value">+24.00</div>
+                <div class="unit">%</div>
+            </div>
+            
+        </div>
+
+        <h2>Emission Analysis Charts</h2>
+        <div class="charts-grid">
+            
+            <div class="chart-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><h3>Total Carbon Emissions per Tech Expo Event</h3><div style="position: relative; height: 350px; width: 100%;"><canvas id="chart_0"></canvas></div></div>
+            
+            <div class="chart-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><h3>Emissions Breakdown by GHG Scope - Tech Expo (ID 3)</h3><div style="position: relative; height: 350px; width: 100%;"><canvas id="chart_1"></canvas></div></div>
+            
+            <div class="chart-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><h3>Emissions Breakdown by GHG Scope - Tech Expo (ID 5)</h3><div style="position: relative; height: 350px; width: 100%;"><canvas id="chart_2"></canvas></div></div>
+            
+            <div class="chart-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><h3>Top Emission Categories Comparison Across Tech Expo Events</h3><div style="position: relative; height: 350px; width: 100%;"><canvas id="chart_3"></canvas></div></div>
+            
+        </div>
+
+        <div class="report-narrative">
+            <h2>Executive Summary</h2>
+<p>This report compares the carbon emissions for two 'Tech Expo' events (ID 3 and ID 5) hosted by EcoSphere Ltd, providing a breakdown by GHG Scope and category. Event 5 recorded significantly higher total emissions compared to Event 3, driven by different primary emission sources.</p>
+<h3>Key Insights</h3>
+<ul>
+<li><strong>Total Emissions Increase:</strong> Tech Expo (ID 5) had total emissions of 89,438.72 kg CO₂e, representing a 24.00% increase compared to Tech Expo (ID 3)'s 72,127.00 kg CO₂e.</li>
+<li><strong>Shifting Emission Hotspots:</strong> Event 3's emissions were predominantly from Scope 3 (Materials, Accommodation, Waste), whereas Event 5 saw a substantial contribution from Scope 1 (Travel, Digital, Accommodation, Materials) and Scope 2 (Catering, Venue Energy).</li>
+<li><strong>Event 3 Dominant Categories:</strong> For Event 3, 'Materials' (19,749.89 kg CO₂e) and 'Accommodation' (18,638.51 kg CO₂e) under Scope 3 were the largest contributors.</li>
+<li><strong>Event 5 Dominant Categories:</strong> For Event 5, 'Catering' (19,814.13 kg CO₂e) under Scope 2 and 'Travel' (19,075.49 kg CO₂e) under Scope 1 were the most significant categories.</li>
+</ul>
+<h3>Recommendations</h3>
+<ol>
+<li><strong>Target Scope 3 for Event 3:</strong> Focus on reducing emissions from materials by exploring sustainable sourcing, circular economy practices, and waste reduction strategies. Optimize accommodation choices for lower carbon footprints.</li>
+<li><strong>Address Scope 1 & 2 for Event 5:</strong> Implement strategies to reduce travel-related emissions, such as encouraging public transport, virtual participation, or selecting closer venues. Review catering options for lower-impact menus and waste reduction.</li>
+<li><strong>Standardize Emission Tracking:</strong> Ensure consistent data collection and categorization across all events to better identify trends, measure the effectiveness of reduction initiatives, and facilitate year-on-year comparisons for similar event types.</li>
+</ol>
+
+        </div>
+    </div>
+
+    <script>
+        const primaryColor = "#28a745";
+        const doughnutColors = [
+            primaryColor, // Green
+            '#61d17d',    // Lighter Green
+            '#a8e6b8',    // Even Lighter Green
+            '#4c8e5e',    // Darker Green
+            '#b0c4de',    // Light Steel Blue (for contrast if many slices)
+            '#dcdcdc'     // Light Gray
+        ];
+        const groupedBarColors = [
+            primaryColor, // Green for Event 3
+            '#4c8e5e'    // Darker Green for Event 5
+        ];
+
+        Chart.register(ChartDataLabels);
+
+        
+        // Chart 0: Total Carbon Emissions per Tech Expo Event (bar)
+        new Chart(document.getElementById('chart_0'), {
+            type: 'bar',
+            data: {
+                labels: ["Tech Expo (ID 3)", "Tech Expo (ID 5)"],
+                datasets: [{
+                    label: 'Total Emissions',
+                    data: [72127.00, 89438.72],
+                    backgroundColor: primaryColor
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: (value) => value.toLocaleString(),
+                        color: '#333'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'kg CO₂e'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart 1: Emissions Breakdown by GHG Scope - Tech Expo (ID 3) (doughnut)
+        new Chart(document.getElementById('chart_1'), {
+            type: 'doughnut',
+            data: {
+                labels: ["Scope 1", "Scope 2", "Scope 3"],
+                datasets: [{
+                    data: [1297.67, 19690.72, 53138.61],
+                    backgroundColor: doughnutColors.slice(0, 3)
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value * 100 / sum).toFixed(2) + "%";
+                            return percentage;
+                        },
+                        color: '#fff',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart 2: Emissions Breakdown by GHG Scope - Tech Expo (ID 5) (doughnut)
+        new Chart(document.getElementById('chart_2'), {
+            type: 'doughnut',
+            data: {
+                labels: ["Scope 1", "Scope 2", "Scope 3"],
+                datasets: [{
+                    data: [45207.99, 34018.05, 10212.68],
+                    backgroundColor: doughnutColors.slice(0, 3)
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value * 100 / sum).toFixed(2) + "%";
+                            return percentage;
+                        },
+                        color: '#fff',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart 3: Top Emission Categories Comparison Across Tech Expo Events (grouped_bar)
+        new Chart(document.getElementById('chart_3'), {
+            type: 'bar',
+            data: {
+                labels: ["Accommodation", "Catering", "Digital", "Materials", "Travel", "Venue Energy", "Waste"],
+                datasets: [
+                    {
+                        label: "Tech Expo (ID 3)",
+                        data: [18638.51, 1297.67, 1106.18, 19749.89, 3793.69, 15897.03, 13644.03],
+                        backgroundColor: groupedBarColors[0]
+                    },
+                    {
+                        label: "Tech Expo (ID 5)",
+                        data: [8276.27, 19814.13, 12829.54, 5026.69, 19075.49, 14203.92, 10212.68],
+                        backgroundColor: groupedBarColors[1]
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    datalabels: {
+                        display: false // Grouped bars can get cluttered with datalabels
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+                    y: {
+                        stacked: false,
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'kg CO₂e'
+                        }
+                    }
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>

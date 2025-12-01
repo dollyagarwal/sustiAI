@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visionary Group Sustainability Summit Carbon Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #28a745; /* Default Green for sustainability */
+            --secondary-color: #6c757d; /* Default Gray */
+            --font-family: 'Inter', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+
+        h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(var(--primary-color-rgb), 0.1); /* Using a fallback for rgba for simplicity */
+            padding-bottom: 8px;
+        }
+
+        h2 { font-size: 2em; }
+        h3 { font-size: 1.6em; }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background-color: #ffffff;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kpi-card .label {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .kpi-card .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .kpi-card .unit {
+            font-size: 1.1em;
+            color: #777;
+            font-weight: 400;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-card h3 {
+            margin-top: 0;
+            text-align: center;
+            width: 100%;
+            border-bottom: none;
+            padding-bottom: 0;
+            color: var(--primary-color);
+            font-size: 1.4em;
+        }
+
+        .narrative-content {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .narrative-content p {
+            margin-bottom: 1em;
+        }
+
+        .narrative-content ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        .narrative-content li {
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Visionary Group Sustainability Summit Carbon Report</h1>
+    </div>
+
+    <div class="container">
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="label">Total Emissions</div>
+                <div class="value">85,167.17</div>
+                <div class="unit">kg CO₂e</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">Total Attendees</div>
+                <div class="value">364</div>
+                <div class="unit">pax</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">Emissions per Attendee</div>
+                <div class="value">233.98</div>
+                <div class="unit">kg CO₂e/attendee</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">Emissions per Sq Ft</div>
+                <div class="value">1.70</div>
+                <div class="unit">kg CO₂e/sqft</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><h3>Emissions Breakdown by Category</h3><div style="position: relative; height: 350px; width: 100%;"><canvas id="chart_0"></canvas></div></div>
+            <div class="chart-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><h3>Emissions by GHG Scope</h3><div style="position: relative; height: 350px; width: 100%;"><canvas id="chart_1"></canvas></div></div>
+        </div>
+
+        <div class="narrative-content">
+            <h2>Executive Summary</h2>
+            <p>The Visionary Group's Sustainability Summit event generated a total of 85,167.17 kg CO₂e. The event hosted 364 attendees across 50,000 sq ft, resulting in an emissions intensity of 233.98 kg CO₂e per attendee. Scope 1 emissions, driven primarily by Venue Energy, Materials, and Travel, accounted for the largest share of the footprint, while Catering was a notable contributor within Scope 3.</p>
+            <h3>Key Insights</h3>
+            <ul>
+                <li><strong>Total Emissions:</strong> The Sustainability Summit generated 85,167.17 kg CO₂e, equivalent to approximately 85.17 metric tonnes.</li>
+                <li><strong>Scope 1 Dominance:</strong> Scope 1 emissions represent the majority of the footprint, totaling 65,234.58 kg CO₂e (76.60%).</li>
+                <li><strong>Scope 3 Contribution:</strong> Scope 3 emissions contributed 19,932.59 kg CO₂e (23.40%) to the overall total.</li>
+                <li><strong>Emission Hotspots:</strong> The top three emission categories are Venue Energy (21.65%), Materials (20.78%), and Travel (17.65%), collectively accounting for over 60% of total emissions.</li>
+                <li><strong>Significant Scope 3 Category:</strong> Catering is a substantial Scope 3 contributor, responsible for 14,348.38 kg CO₂e (16.85%).</li>
+                <li><strong>Intensity Metrics:</strong> The event's emissions intensity was 233.98 kg CO₂e per attendee and 1.70 kg CO₂e per square foot.</li>
+            </ul>
+            <h3>Recommendations</h3>
+            <ul>
+                <li><strong>Optimize Venue Energy and Materials:</strong> Implement energy efficiency measures at the venue and prioritize the use of low-carbon, recycled, or locally sourced materials for event infrastructure to significantly reduce Scope 1 emissions.</li>
+                <li><strong>Promote Sustainable Travel & Accommodation:</strong> Encourage attendees and staff to use public transport or carpooling, offer hybrid event options to reduce long-distance travel, and select accommodations with verified sustainability certifications.</li>
+                <li><strong>Green Catering Practices:</strong> Work with catering partners to reduce food waste, increase plant-based options, and source ingredients from local, sustainable producers to mitigate Scope 3 catering emissions.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+            const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--secondary-color').trim();
+
+            const chartData = [
+                {
+                  "title": "Emissions Breakdown by Category",
+                  "type": "doughnut",
+                  "labels": [
+                    "Venue Energy",
+                    "Materials",
+                    "Travel",
+                    "Catering",
+                    "Accommodation",
+                    "Digital",
+                    "Waste"
+                  ],
+                  "data": [
+                    18439.46,
+                    17696.87,
+                    15033.84,
+                    14348.38,
+                    12847.46,
+                    5584.21,
+                    1216.95
+                  ],
+                  "color_scheme": "primary"
+                },
+                {
+                  "title": "Emissions by GHG Scope",
+                  "type": "bar",
+                  "labels": [
+                    "Scope 1",
+                    "Scope 3"
+                  ],
+                  "data": [
+                    65234.58,
+                    19932.59
+                  ],
+                  "color_scheme": "primary"
+                }
+            ];
+
+            const doughnutColors = [
+                primaryColor,
+                secondaryColor,
+                '#ffc107', /* yellow */
+                '#17a2b8', /* teal */
+                '#dc3545', /* red */
+                '#6f42c1', /* purple */
+                '#fd7e14', /* orange */
+                '#20c997', /* light green */
+                '#e83e8c', /* pink */
+                '#6610f2'  /* indigo */
+            ];
+
+            chartData.forEach((chartConfig, index) => {
+                const ctx = document.getElementById(`chart_${index}`).getContext('2d');
+                let backgroundColors;
+                let borderColors;
+                let borderWidth = 0;
+                let borderRadius = 0;
+                let legendDisplay = false;
+
+                if (chartConfig.type === 'doughnut') {
+                    backgroundColors = chartConfig.labels.map((_, i) => doughnutColors[i % doughnutColors.length]);
+                    borderColors = '#ffffff'; /* White border for doughnut segments */
+                    borderWidth = 2;
+                    legendDisplay = true;
+                } else if (chartConfig.type === 'bar') {
+                    backgroundColors = primaryColor;
+                    borderColors = primaryColor;
+                    borderRadius = 4;
+                } else if (chartConfig.type === 'line') {
+                    backgroundColors = 'transparent';
+                    borderColors = primaryColor;
+                    borderWidth = 2;
+                }
+
+                new Chart(ctx, {
+                    type: chartConfig.type,
+                    data: {
+                        labels: chartConfig.labels,
+                        datasets: [{
+                            data: chartConfig.data,
+                            backgroundColor: backgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: borderWidth,
+                            hoverOffset: chartConfig.type === 'doughnut' ? 8 : 0,
+                            borderRadius: borderRadius,
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: legendDisplay,
+                                position: 'bottom',
+                                labels: {
+                                    color: '#555',
+                                    font: {
+                                        size: 12
+                                    },
+                                    boxWidth: 20
+                                }
+                            },
+                            tooltip: {
+                                enabled: true,
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                padding: 10,
+                                cornerRadius: 4,
+                                displayColors: true,
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                display: chartConfig.type !== 'doughnut',
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)',
+                                },
+                                ticks: {
+                                    color: '#777',
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            },
+                            x: {
+                                display: chartConfig.type !== 'doughnut',
+                                grid: {
+                                    display: false,
+                                },
+                                ticks: {
+                                    color: '#777',
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
