@@ -30,19 +30,58 @@ if not HAS_ADK:
             return f"<LlmAgent name={self.name!r}>"
 
 
-# Setup MCP toolset (not required to run tests, kept for parity)
+# Setup MCP toolset (not required to run tests, kept for parity). Prefer an
+# in-process implementation when the environment indicates it (USE_INPROC_MCP)
+# or when the external helper `event_emission_server.py` is missing.
 server_command = ["python", "event_emission_server.py"]
 
-try:
-    mcp_tools = MCPToolset(
-        connection_params=StdioServerParameters(
-            command=server_command[0], args=server_command[1:]
+PREFER_INPROC = os.getenv("USE_INPROC_MCP", "").lower() in ("1", "true", "yes")
+_helper_exists = os.path.exists("event_emission_server.py")
+
+# If requested or helper absent, use the LocalMCPToolset shim to avoid
+# spawning an external process and prevent stdio lifecycle issues.
+if PREFER_INPROC or not _helper_exists:
+    try:
+        from ..mcp_tool_local import LocalMCPToolset
+
+        # If ADK is available, wrap each function in a FunctionTool so the
+        # LlmAgent accepts them as callable tools. Otherwise use the raw
+        # LocalMCPToolset instance for test / CI friendly imports.
+        if HAS_ADK:
+            try:
+                from google.adk.tools import FunctionTool
+
+                local = LocalMCPToolset()
+                mcp_tools = [
+                    FunctionTool(local.describe_database),
+                    FunctionTool(local.search_entities),
+                    FunctionTool(local.get_branding_config),
+                    FunctionTool(local.get_event_kpis),
+                    FunctionTool(local.get_event_emissions_breakdown),
+                    FunctionTool(local.get_company_portfolio_summary),
+                    FunctionTool(local.get_company_monthly_emissions),
+                    FunctionTool(local.run_sql),
+                ]
+            except Exception:
+                # If FunctionTool isn't available for any reason, fall back
+                # to the object instance — ADK validation may still fail but
+                # this is a conservative attempt.
+                mcp_tools = LocalMCPToolset()
+        else:
+            mcp_tools = LocalMCPToolset()
+    except Exception:
+        mcp_tools = None
+else:
+    try:
+        mcp_tools = MCPToolset(
+            connection_params=StdioServerParameters(
+                command=server_command[0], args=server_command[1:]
+            )
         )
-    )
-except Exception:
-    # If MCPToolset isn't available we keep a None placeholder so imports
-    # remain valid but the agent won't try to call external processes.
-    mcp_tools = None
+    except Exception:
+        # If MCPToolset isn't available we keep a None placeholder so imports
+        # remain valid but the agent won't try to call external processes.
+        mcp_tools = None
 
 
 retry_config = None
@@ -126,7 +165,7 @@ if GOOGLE_API_KEY:
 data_collector_agent = LlmAgent(
     name="DataCollector",
     model=Gemini(**_model_kwargs) if HAS_ADK else None,
-    tools=[mcp_tools] if mcp_tools is not None else [],
+    tools=(mcp_tools if isinstance(mcp_tools, list) else ([mcp_tools] if mcp_tools is not None else [])),
     output_key="data_collected",
     instruction=data_collector_instruction,
 )

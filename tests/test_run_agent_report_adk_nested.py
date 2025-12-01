@@ -53,7 +53,7 @@ def test_run_agent_report_endpoint_adk_saved_path(monkeypatch, tmp_path):
 
     reports_dir = pathlib.Path("reports")
     reports_dir.mkdir(exist_ok=True)
-    saved_file = reports_dir / "tmp_test_saved.html"
+    saved_file = reports_dir / "EcoSphere Ltd.html"
     html = "<!DOCTYPE html><html><body><h1>SAVED_FILE_REPORT</h1></body></html>"
     saved_file.write_text(html, encoding="utf-8")
 
@@ -69,7 +69,9 @@ def test_run_agent_report_endpoint_adk_saved_path(monkeypatch, tmp_path):
 
         async def run_debug(self, *args, **kwargs):
             # ADK might return a string mentioning where the report was saved
-            return {"message": f"Saved report to {str(saved_file)}"}
+            # Simulate a string with a space-containing path as some agents save
+            # reports using the company name with spaces (e.g. 'EcoSphere Ltd').
+            return {"message": f"Saved report to {str(saved_file.parent / 'EcoSphere Ltd.html')}"}
 
     import src.sustiai.agents.orchestrator as orchestrator
 

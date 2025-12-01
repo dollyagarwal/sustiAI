@@ -182,27 +182,63 @@ def run_agent_report(payload: AgentQuery):
                                 return s[start : end + len("</html>")]
                             return s[start:]
 
-                    # check for saved report paths like reports/report_*.html
+                    # check for saved report paths and return file contents.
+                    # Support paths with spaces and both relative (reports/...) and
+                    # absolute Windows or Unix paths.
+                    path_patterns = [
+                        r"(reports[\\/][^'\"\n\r]+?\.html)",
+                        r"([A-Za-z]:[\\/][^'\"\n\r]+?\.html)",
+                        r"(/[^'\"\n\r]+?\.html)",
+                    ]
+
                     for s in strings:
                         if not isinstance(s, str):
                             continue
-                        m = re.search(r"(reports[\\/][^\s'\"]+\.html)", s)
-                        if m:
-                            candidate = m.group(1)
-                            if os.path.exists(candidate):
-                                try:
-                                    with open(candidate, "r", encoding="utf-8") as fh:
-                                        return fh.read()
-                                except Exception:
+                        candidate = None
+                        for pat in path_patterns:
+                            m = re.search(pat, s)
+                            if m:
+                                candidate = m.group(1)
+                                break
+
+                        if candidate:
+                            tried = [candidate, os.path.join(os.getcwd(), candidate)]
+                            try:
+                                candidate_norm = os.path.normpath(candidate)
+                                tried.extend([candidate_norm, os.path.join(os.getcwd(), candidate_norm)])
+                            except Exception:
+                                pass
+
+                            for p in tried:
+                                if not isinstance(p, str):
                                     continue
+                                if os.path.exists(p):
+                                    try:
+                                        with open(p, "r", encoding="utf-8") as fh:
+                                            return fh.read()
+                                    except Exception:
+                                        continue
 
                     return None
+                
+                try:
 
-                html = _extract_html(response)
-                if html:
-                    return HTMLResponse(content=html)
+                    report_text = response[-1].content.parts[0].text  # Get the text
+                    import re
+                    match = re.search(r'"(reports/[^"]+)"', report_text)
+                    report_path = match.group(1) if match else None
+                    print("Found the path", report_path)
+                    with open(report_path, "r", encoding="utf-8") as f:
+                        html_content = f.read()
+                    return HTMLResponse(content=html_content)
 
-                return {"ok": True, "agent_response": str(response)}
+
+                except Exception:
+                    html = _extract_html(response)
+                    if html:
+                        return HTMLResponse(content=html)
+
+                return {"ok": True, "agent_response": str(response[-1].content.parts[0].text)}
     except Exception:
         # If the ADK run fails, fall back to safe path below
         pass
