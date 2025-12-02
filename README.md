@@ -133,11 +133,12 @@ SustiAI uses an **Agentic AI architecture** built on **Google ADK** and **Gemini
 ### 2. BlueSky Corp (company_id = 1)
 **Query:** Compare emissions per attendee across all events for BlueSky Corp, grouped by category and scope.
 
-Disclaimer: The data used in this codebase is mocked for demo purposes. The mock data was generated using LLM.
-
 **Generated Report:**
 [View Full Report](reports/bluesky-report.html)
 
 **Why Insightful:**
 - Shows carbon intensity per attendee, a key sustainability KPI.
 - Enables benchmarking across event types (Product Launch vs Sustainability Summit).
+
+
+**Disclaimer:** The data used in this codebase is mocked for demo purposes. The mock data was generated using LLM.
