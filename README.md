@@ -34,6 +34,8 @@ SustiAI solves these challenges by:
 ## Architecture
 SustiAI uses an **Agentic AI architecture** built on **Google ADK** and **Gemini**:
 
+![Architecture](assets/architecture.png) *Figure: Multi-Agent Architecture using Google ADK and Gemini*
+
 ### Core Components
 - **Multi-Agent System**:
   - **LLM-powered Agent** for report generation and insights.
